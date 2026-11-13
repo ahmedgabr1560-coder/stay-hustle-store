@@ -7,8 +7,7 @@
   <meta name="description" content="STAY HUSTLE — Oversized streetwear essentials." />
   <meta name="theme-color" content="#0A0A0A" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{colors:{brand:{red:'#D92323',black:'#0A0A0A',offwhite:'#F8F8F8'}},fontFamily:{sans:['Inter','system-ui','sans-serif'],display:['Space Grotesk','Inter','sans-serif'],arabic:['Tajawal','Inter','sans-serif']}}}}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <script>tailwind.config={theme:{extend:{colors:{brand:{red:'#D92323',black:'#0A0A0A'}},fontFamily:{sans:['Inter','system-ui','sans-serif'],display:['Space Grotesk','Inter','sans-serif'],arabic:['Tajawal','Inter','sans-serif']}}}}</script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box}body{margin:0;overflow-x:hidden;background:#F8F8F8}
@@ -18,7 +17,7 @@
     @keyframes ticker-rtl{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
     .pulse-glow{animation:pulseGlow 2.2s ease-in-out infinite}
     @keyframes pulseGlow{0%,100%{transform:scale(1);filter:drop-shadow(0 0 12px rgba(217,35,35,.7))}50%{transform:scale(1.06);filter:drop-shadow(0 0 26px rgba(217,35,35,.95))}}
-    input[type=range]{-webkit-appearance:none;appearance:none;height:6px;background:#e5e5e5;border-radius:999px}
+    input[type=range]{-webkit-appearance:none;height:6px;background:#e5e5e5;border-radius:999px}
     input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#D92323;cursor:grab}
   </style>
 </head>
@@ -36,60 +35,60 @@ const { motion, AnimatePresence } = Motion;
 const translations = {
   en: {
     collection:"COLLECTION", about:"ABOUT", bag:"BAG",
-    freeShipping:"FREE SHIPPING ON ORDERS OVER $150  •  WORLDWIDE DELIVERY  •  LIMITED DROP  •  NO RULES JUST STYLE  •  ",
+    freeShipping:"FREE SHIPPING ON ORDERS OVER $150  •  WORLDWIDE DELIVERY  •  LIMITED DROP  •  ",
     heroTitle1:"NO RULES.", heroTitle2:"JUST STYLE.",
     heroSub:"Oversized heavyweight essentials.\nBuilt for the streets. Made to last.",
-    viewProduct:"VIEW PRODUCT →", backToRack:"← BACK", limitedDrop:"LIMITED DROP",
+    viewProduct:"VIEW PRODUCT →", backToRack:"← BACK", limitedDrop:"LIMITED",
     inStock:"IN STOCK", shipsIn:"SHIPS IN 24 HOURS",
-    desc:"Premium heavyweight construction. Soft brushed interior, reinforced seams, and a boxy oversized fit built for daily wear.",
+    desc:"Premium heavyweight construction. Soft brushed interior, reinforced seams, boxy oversized fit.",
     selectSize:"SELECT SIZE", sizeGuide:"Size Guide", addToBag:"ADD TO BAG", added:"ADDED",
-    cotton:"100% Heavyweight Cotton Fleece", freeExpress:"Free Express Worldwide Shipping", returns:"30-Day Easy Returns",
+    cotton:"100% Heavyweight Cotton", freeExpress:"Free Express Worldwide Shipping", returns:"30-Day Easy Returns",
     yourBag:"YOUR BAG", close:"CLOSE", emptyBag:"Your bag is empty.", subtotal:"Subtotal", checkout:"CHECKOUT",
     products:"PRODUCTS", newArrivals:"NEW ARRIVALS", add:"ADD", soldOut:"SOLD OUT",
     aboutTitle:"ABOUT STAY HUSTLE",
-    aboutText:"Born in the streets. Built without rules. We create oversized, heavyweight essentials designed for those who move differently.",
-    footerRights:"© 2026 STAY HUSTLE. All rights reserved.", lang:"عربي", view3d:"2D / 3D"
+    aboutText:"Born in the streets. Built without rules. Oversized heavyweight essentials for those who move differently.",
+    footerRights:"© 2026 STAY HUSTLE. All rights reserved.", lang:"عربي", view3d:"3D VIEW",
+    dragHint:"Drag to rotate"
   },
   ar: {
     collection:"المجموعة", about:"عنّا", bag:"السلة",
-    freeShipping:"شحن مجاني للطلبات فوق ١٥٠$  •  توصيل عالمي  •  قطرة محدودة  •  لا قواعد فقط ستايل  •  ",
+    freeShipping:"شحن مجاني للطلبات فوق ١٥٠$  •  توصيل عالمي  •  قطرة محدودة  •  ",
     heroTitle1:"لا قواعد.", heroTitle2:"فقط ستايل.",
     heroSub:"أساسيات أوفرسايز ثقيلة الوزن.\nمصنوعة للشارع. مصنوعة لتدوم.",
-    viewProduct:"عرض المنتج ←", backToRack:"→ رجوع", limitedDrop:"قطرة محدودة",
+    viewProduct:"عرض المنتج ←", backToRack:"→ رجوع", limitedDrop:"محدود",
     inStock:"متوفر", shipsIn:"يشحن خلال ٢٤ ساعة",
-    desc:"خامة ثقيلة فاخرة. داخل ناعم، خياطة معززة، وقصة أوفرسايز بوكسي مصممة للاستخدام اليومي.",
+    desc:"خامة ثقيلة فاخرة. داخل ناعم، خياطة معززة، وقصة أوفرسايز بوكسي.",
     selectSize:"اختر المقاس", sizeGuide:"دليل المقاسات", addToBag:"أضف للسلة", added:"تمت الإضافة",
-    cotton:"١٠٠٪ قطن فليس ثقيل", freeExpress:"شحن سريع مجاني عالمياً", returns:"إرجاع سهل خلال ٣٠ يوم",
+    cotton:"١٠٠٪ قطن ثقيل", freeExpress:"شحن سريع مجاني عالمياً", returns:"إرجاع سهل خلال ٣٠ يوم",
     yourBag:"سلتك", close:"إغلاق", emptyBag:"سلتك فارغة.", subtotal:"المجموع", checkout:"إتمام الشراء",
     products:"المنتجات", newArrivals:"وصل حديثاً", add:"أضف", soldOut:"نفد",
     aboutTitle:"عن STAY HUSTLE",
-    aboutText:"ولدت من الشارع. بُنيت بدون قواعد. نصنع أساسيات أوفرسايز ثقيلة الوزن لمن يتحرك بطريقة مختلفة.",
-    footerRights:"© ٢٠٢٦ STAY HUSTLE. جميع الحقوق محفوظة.", lang:"EN", view3d:"2D / 3D"
+    aboutText:"ولدت من الشارع. بُنيت بدون قواعد. أساسيات أوفرسايز ثقيلة لمن يتحرك بطريقة مختلفة.",
+    footerRights:"© ٢٠٢٦ STAY HUSTLE. جميع الحقوق محفوظة.", lang:"EN", view3d:"عرض 3D",
+    dragHint:"اسحب للدوران"
   }
 };
 
 const HOODIES = [
-  { id:1, label:"Ash", labelAr:"رمادي فاتح", color:"#D1D5DB", accent:"#9CA3AF", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=550&fit=crop&q=80" },
-  { id:2, label:"Charcoal", labelAr:"فحمي", color:"#2D2D2D", accent:"#1A1A1A", img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=550&fit=crop&q=80" },
-  { id:3, label:"Forest", labelAr:"أخضر غابة", color:"#1B4332", accent:"#0F2A1F", img:"https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=550&fit=crop&q=80" },
-  { id:4, label:"Steel", labelAr:"رمادي متوسط", color:"#6B7280", accent:"#4B5563", img:"https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&h=550&fit=crop&q=80" },
-  { id:5, label:"Cream", labelAr:"كريمي", color:"#F5F0E8", accent:"#E8DFD0", img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=550&fit=crop&q=80" },
-  { id:6, label:"Burgundy", labelAr:"خمري", color:"#4A0E0E", accent:"#2A0808", img:"https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=400&h=550&fit=crop&q=80" },
+  { id:1, label:"Black", labelAr:"أسود", color:"#111", accent:"#000", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&h=650&fit=crop&q=85" },
+  { id:2, label:"Grey", labelAr:"رمادي", color:"#6B7280", accent:"#4B5563", img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&h=650&fit=crop&q=85" },
+  { id:3, label:"White", labelAr:"أبيض", color:"#F5F5F5", accent:"#E5E5E5", img:"https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&h=650&fit=crop&q=85" },
+  { id:4, label:"Navy", labelAr:"كحلي", color:"#1e3a5f", accent:"#0f2744", img:"https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=500&h=650&fit=crop&q=85" },
+  { id:5, label:"Olive", labelAr:"زيتي", color:"#3d4a2e", accent:"#2a3320", img:"https://images.unsplash.com/photo-1562157873-818bc0726f68?w=500&h=650&fit=crop&q=85" },
+  { id:6, label:"Sand", labelAr:"رملي", color:"#C4B7A6", accent:"#A89880", img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=650&fit=crop&q=85" },
 ];
 
 const PRODUCTS = [
-  { id:"p1", name:"STAY HUSTLE Oversized Hoodie", nameAr:"هودي STAY HUSTLE أوفرسايز", price:115, tag:"LIMITED", tagAr:"محدود", inStock:true, img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=800&fit=crop&q=80" },
-  { id:"p2", name:"Heavy Cargo Pants", nameAr:"بنطلون كارجو ثقيل", price:95, tag:"NEW", tagAr:"جديد", inStock:true, img:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&h=800&fit=crop&q=80" },
-  { id:"p3", name:"Boxy Tee — Black", nameAr:"تيشيرت بوكسي — أسود", price:45, tag:null, inStock:true, img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=800&fit=crop&q=80" },
-  { id:"p4", name:"Washed Denim Jacket", nameAr:"جاكيت دنيم مغسول", price:145, tag:"NEW", tagAr:"جديد", inStock:true, img:"https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=600&h=800&fit=crop&q=80" },
-  { id:"p5", name:"Essential Cap", nameAr:"كاب أساسي", price:35, tag:null, inStock:false, img:"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&h=800&fit=crop&q=80" },
-  { id:"p6", name:"Crewneck Fleece", nameAr:"سويتشيرت فليس", price:85, tag:null, inStock:true, img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=800&fit=crop&q=80" },
-  { id:"p7", name:"Utility Vest", nameAr:"فيست يوتيليتي", price:110, tag:"LIMITED", tagAr:"محدود", inStock:true, img:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=800&fit=crop&q=80" },
-  { id:"p8", name:"Wide Leg Trousers", nameAr:"بنطلون واسع الساق", price:90, tag:null, inStock:true, img:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=800&fit=crop&q=80" },
+  { id:"p1", name:"Oversized Hoodie Black", nameAr:"هودي أوفرسايز أسود", price:115, tag:"LIMITED", tagAr:"محدود", inStock:true, img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=700&h=900&fit=crop&q=85" },
+  { id:"p2", name:"Heavyweight Crewneck", nameAr:"سويتشيرت ثقيل", price:95, tag:"NEW", tagAr:"جديد", inStock:true, img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=700&h=900&fit=crop&q=85" },
+  { id:"p3", name:"Boxy Tee White", nameAr:"تيشيرت بوكسي أبيض", price:45, tag:null, inStock:true, img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=700&h=900&fit=crop&q=85" },
+  { id:"p4", name:"Cargo Pants Black", nameAr:"بنطلون كارجو أسود", price:110, tag:"NEW", tagAr:"جديد", inStock:true, img:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=700&h=900&fit=crop&q=85" },
+  { id:"p5", name:"Denim Jacket", nameAr:"جاكيت دنيم", price:145, tag:null, inStock:true, img:"https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=700&h=900&fit=crop&q=85" },
+  { id:"p6", name:"Track Jacket", nameAr:"جاكيت رياضي", price:120, tag:"LIMITED", tagAr:"محدود", inStock:true, img:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=700&h=900&fit=crop&q=85" },
 ];
 
 function Preloader({ onComplete }) {
-  useEffect(() => { const t = setTimeout(onComplete, 2200); return () => clearTimeout(t); }, [onComplete]);
+  useEffect(() => { const t = setTimeout(onComplete, 2000); return () => clearTimeout(t); }, [onComplete]);
   return (
     <motion.div className="fixed inset-0 z-[100] bg-[#0A0A0A] flex items-center justify-center" exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="pulse-glow">
@@ -206,7 +205,7 @@ function ProductGrid({ t, lang, onAdd, onView }) {
         <p className="text-xs tracking-[0.25em] uppercase text-black/40 mb-1">{t.newArrivals}</p>
         <h2 className="font-display text-2xl sm:text-3xl font-bold">{t.products}</h2>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         {PRODUCTS.map(p => <ProductCard key={p.id} product={p} t={t} lang={lang} onAdd={onAdd} onView={onView} />)}
       </div>
     </section>
@@ -226,7 +225,7 @@ function AboutSection({ t }) {
 
 function Product3DViewer({ imgUrl }) {
   const mountRef = useRef(null);
-  const stateRef = useRef({ dragging: false, prevX: 0, prevY: 0, rotY: 0.4, rotX: -0.12 });
+  const stateRef = useRef({ dragging: false, prevX: 0, prevY: 0, rotY: 0, rotX: 0 });
   useEffect(() => {
     if (!mountRef.current || !window.THREE) return;
     const THREE = window.THREE;
@@ -241,8 +240,8 @@ function Product3DViewer({ imgUrl }) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     el.innerHTML = "";
     el.appendChild(renderer.domElement);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-    const dirL = new THREE.DirectionalLight(0xffffff, 0.55);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const dirL = new THREE.DirectionalLight(0xffffff, 0.5);
     dirL.position.set(2, 3, 4);
     scene.add(dirL);
     const group = new THREE.Group();
@@ -254,15 +253,15 @@ function Product3DViewer({ imgUrl }) {
       const aspect = (tex.image && tex.image.width) ? tex.image.width / tex.image.height : 0.75;
       const planeH = 2.2, planeW = planeH * aspect;
       const geo = new THREE.PlaneGeometry(planeW, planeH);
-      const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7, metalness: 0.05 });
+      const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.65, metalness: 0.02 });
       const front = new THREE.Mesh(geo, mat);
       front.position.z = 0.04;
       group.add(front);
-      const back = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85, color: 0xcccccc }));
+      const back = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85, color: 0xbbbbbb }));
       back.rotation.y = Math.PI;
       back.position.z = -0.04;
       group.add(back);
-      group.add(new THREE.Mesh(new THREE.BoxGeometry(planeW, planeH, 0.08), new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.9 })));
+      group.add(new THREE.Mesh(new THREE.BoxGeometry(planeW, planeH, 0.08), new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.9 })));
     }, undefined, () => {
       group.add(new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.9, 0.12), new THREE.MeshStandardMaterial({ color: 0x333333 })));
     });
@@ -272,8 +271,8 @@ function Product3DViewer({ imgUrl }) {
       if (!st.dragging) return;
       const x = e.clientX || (e.touches && e.touches[0].clientX) || 0;
       const y = e.clientY || (e.touches && e.touches[0].clientY) || 0;
-      st.rotY += (x - st.prevX) * 0.008;
-      st.rotX = Math.max(-0.9, Math.min(0.9, st.rotX + (y - st.prevY) * 0.005));
+      st.rotY += (x - st.prevX) * 0.01;
+      st.rotX = Math.max(-0.85, Math.min(0.85, st.rotX + (y - st.prevY) * 0.006));
       st.prevX = x; st.prevY = y;
     };
     const onUp = () => { st.dragging = false; };
@@ -286,7 +285,7 @@ function Product3DViewer({ imgUrl }) {
     let frame;
     const animate = () => {
       frame = requestAnimationFrame(animate);
-      if (!st.dragging) st.rotY += 0.004;
+      // NO auto-spin — only user drag
       group.rotation.y = st.rotY;
       group.rotation.x = st.rotX;
       renderer.render(scene, camera);
@@ -313,7 +312,6 @@ function Product3DViewer({ imgUrl }) {
 
 function ProductDetail({ product, onBack, onAddToCart, t, lang }) {
   const [size, setSize] = useState("M");
-  const [rotation, setRotation] = useState(0);
   const [viewMode, setViewMode] = useState("3d");
   const [isAdding, setIsAdding] = useState(false);
   const productName = lang === 'ar' ? (product.nameAr || product.name || product.label) : (product.name || product.label || "Product");
@@ -331,19 +329,15 @@ function ProductDetail({ product, onBack, onAddToCart, t, lang }) {
             {viewMode === "3d" ? (
               <Product3DViewer imgUrl={product.img} />
             ) : (
-              <img src={product.img} alt={productName} className="absolute inset-0 w-full h-full object-cover" style={{ transform: `rotateY(${rotation * 0.35}deg)` }} draggable={false} />
+              <img src={product.img} alt={productName} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
             )}
-            {viewMode === "3d" && <p className="absolute bottom-3 left-0 right-0 text-center text-[10px] tracking-widest text-black/40 uppercase z-20 pointer-events-none">Drag to rotate · اسحب للدوران</p>}
+            {viewMode === "3d" && (
+              <p className="absolute bottom-3 left-0 right-0 text-center text-[10px] tracking-widest text-black/45 uppercase z-20 pointer-events-none">{t.dragHint}</p>
+            )}
           </div>
-          {viewMode === "2d" && (
-            <div className="mt-5 flex items-center gap-3 px-1">
-              <span className="text-[10px] font-bold tracking-widest text-black/40">360°</span>
-              <input type="range" min="0" max="360" value={rotation} onChange={e => setRotation(+e.target.value)} className="flex-1" />
-            </div>
-          )}
           <div className="mt-3 flex gap-2">
-            <button onClick={() => { setViewMode("2d"); setRotation(0); }} className={`px-4 py-2 rounded-full text-xs font-semibold ${viewMode === "2d" ? "bg-brand-black text-white" : "bg-white border border-black/10 text-black/60"}`}>2D VIEW</button>
-            <button onClick={() => setViewMode("3d")} className={`px-4 py-2 rounded-full text-xs font-semibold ${viewMode === "3d" ? "bg-brand-black text-white" : "bg-white border border-black/10 text-black/60"}`}>3D MODEL</button>
+            <button onClick={() => setViewMode("2d")} className={`px-4 py-2 rounded-full text-xs font-semibold ${viewMode === "2d" ? "bg-brand-black text-white" : "bg-white border border-black/10 text-black/60"}`}>2D</button>
+            <button onClick={() => setViewMode("3d")} className={`px-4 py-2 rounded-full text-xs font-semibold ${viewMode === "3d" ? "bg-brand-black text-white" : "bg-white border border-black/10 text-black/60"}`}>3D</button>
           </div>
         </div>
         <div className="flex flex-col">
@@ -450,7 +444,7 @@ function App() {
     document.body.className = `font-sans text-brand-black antialiased ${lang === "ar" ? "font-arabic" : ""}`;
   }, [lang, dir]);
   const handleSelect = (item) => {
-    const product = item.price ? item : { ...item, name: `STAY HUSTLE ${item.label || ""} Hoodie`, nameAr: `هودي STAY HUSTLE ${item.labelAr || item.label || ""}`, price: 115 };
+    const product = item.price ? item : { ...item, name: `STAY HUSTLE ${item.label || ""}`, nameAr: `STAY HUSTLE ${item.labelAr || item.label || ""}`, price: 115 };
     setSelected(product); setView("pdp"); window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const handleAddToCart = (item) => { setCart(prev => [...prev, item]); setCartOpen(true); };
