@@ -1,1 +1,478 @@
-SEE_LOCAL_FILE
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STAY HUSTLE — No Rules. Just Style.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { red: '#D92323', black: '#0A0A0A', offwhite: '#F8F8F8', cream: '#F5F0E8' } },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Space Grotesk', 'Inter', 'sans-serif'],
+            arabic: ['Tajawal', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; overflow-x: hidden; background: #F8F8F8; }
+    .ticker-track { display: flex; width: max-content; animation: ticker 32s linear infinite; }
+    [dir="rtl"] .ticker-track { animation-name: ticker-rtl; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes ticker-rtl { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
+    .pulse-glow { animation: pulseGlow 2.2s ease-in-out infinite; }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(217,35,35,0.7)); }
+      50% { transform: scale(1.06); filter: drop-shadow(0 0 26px rgba(217,35,35,0.95)); }
+    }
+    input[type=range] { -webkit-appearance: none; appearance: none; height: 6px; background: #e5e5e5; border-radius: 999px; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #D92323; cursor: grab; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+    input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: #D92323; border: 0; cursor: grab; }
+  </style>
+</head>
+<body class="font-sans text-brand-black antialiased">
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/framer-motion@11.0.0/dist/framer-motion.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+    const { motion, AnimatePresence } = Motion;
+
+    const translations = {
+      en: {
+        collection: "COLLECTION", about: "ABOUT", bag: "BAG",
+        freeShipping: "FREE SHIPPING ON ORDERS OVER $150  •  WORLDWIDE DELIVERY  •  LIMITED DROP  •  NO RULES JUST STYLE  •  ",
+        heroTitle1: "NO RULES.", heroTitle2: "JUST STYLE.",
+        heroSub: "Oversized heavyweight essentials.\nBuilt for the streets. Made to last.",
+        viewProduct: "VIEW PRODUCT →", backToRack: "← BACK TO RACK", limitedDrop: "LIMITED DROP",
+        stayHustleHoodie: "STAY HUSTLE\nOVERSIZED HOODIE", inStock: "IN STOCK", shipsIn: "SHIPS IN 24 HOURS",
+        desc: "480gsm heavyweight cotton fleece with a boxy oversized fit. Soft brushed interior, reinforced seams, and a high-density puff print on the back. Built for daily wear.",
+        selectSize: "SELECT SIZE", sizeGuide: "Size Guide", addToBag: "ADD TO BAG — $115", added: "ADDED",
+        cotton: "100% Heavyweight Cotton Fleece", freeExpress: "Free Express Worldwide Shipping", returns: "30-Day Easy Returns",
+        yourBag: "YOUR BAG", close: "CLOSE", emptyBag: "Your bag is empty.", subtotal: "Subtotal", checkout: "CHECKOUT",
+        products: "PRODUCTS", newArrivals: "NEW ARRIVALS", viewAll: "VIEW ALL", add: "ADD", soldOut: "SOLD OUT",
+        aboutTitle: "ABOUT STAY HUSTLE",
+        aboutText: "Born in the streets. Built without rules. We create oversized, heavyweight essentials designed for those who move differently. No trends. Just style that lasts.",
+        footerRights: "© 2026 STAY HUSTLE. All rights reserved.", lang: "عربي"
+      },
+      ar: {
+        collection: "المجموعة", about: "عنّا", bag: "السلة",
+        freeShipping: "شحن مجاني للطلبات فوق ١٥٠$  •  توصيل عالمي  •  قطرة محدودة  •  لا قواعد فقط ستايل  •  ",
+        heroTitle1: "لا قواعد.", heroTitle2: "فقط ستايل.",
+        heroSub: "أساسيات أوفرسايز ثقيلة الوزن.\nمصنوعة للشارع. مصنوعة لتدوم.",
+        viewProduct: "عرض المنتج ←", backToRack: "→ العودة للرف", limitedDrop: "قطرة محدودة",
+        stayHustleHoodie: "هودي STAY HUSTLE\nأوفرسايز", inStock: "متوفر", shipsIn: "يشحن خلال ٢٤ ساعة",
+        desc: "قطن فليس ثقيل ٤٨٠ جرام بقصة أوفرسايز بوكسي. داخل ناعم، خياطة معززة، وطباعة باف عالية الكثافة على الظهر. مصمم للاستخدام اليومي.",
+        selectSize: "اختر المقاس", sizeGuide: "دليل المقاسات", addToBag: "أضف للسلة — ١١٥$", added: "تمت الإضافة",
+        cotton: "١٠٠٪ قطن فليس ثقيل", freeExpress: "شحن سريع مجاني عالمياً", returns: "إرجاع سهل خلال ٣٠ يوم",
+        yourBag: "سلتك", close: "إغلاق", emptyBag: "سلتك فارغة.", subtotal: "المجموع", checkout: "إتمام الشراء",
+        products: "المنتجات", newArrivals: "وصل حديثاً", viewAll: "عرض الكل", add: "أضف", soldOut: "نفد",
+        aboutTitle: "عن STAY HUSTLE",
+        aboutText: "ولدت من الشارع. بُنيت بدون قواعد. نصنع أساسيات أوفرسايز ثقيلة الوزن لمن يتحرك بطريقة مختلفة. لا موضة. فقط ستايل يدوم.",
+        footerRights: "© ٢٠٢٦ STAY HUSTLE. جميع الحقوق محفوظة.", lang: "EN"
+      }
+    };
+
+    const HOODIES = [
+      { id: 1, name: "LIGHT GREY", color: "#D1D5DB", accent: "#9CA3AF", label: "Ash", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=550&fit=crop&q=80" },
+      { id: 2, name: "DARK CHARCOAL", color: "#2D2D2D", accent: "#1A1A1A", label: "Charcoal", img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=550&fit=crop&q=80" },
+      { id: 3, name: "FOREST GREEN", color: "#1B4332", accent: "#0F2A1F", label: "Forest", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=550&fit=crop&q=80" },
+      { id: 4, name: "MEDIUM GREY", color: "#6B7280", accent: "#4B5563", label: "Steel", img: "https://images.unsplash.com/photo-1509942776187-b44d4c1bd0c9?w=400&h=550&fit=crop&q=80" },
+      { id: 5, name: "CREAM", color: "#F5F0E8", accent: "#E8DFD0", label: "Cream", img: "https://images.unsplash.com/photo-1618354691373-d743c7c0d1c4?w=400&h=550&fit=crop&q=80" },
+      { id: 6, name: "BURGUNDY", color: "#4A0E0E", accent: "#2A0808", label: "Burgundy", img: "https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=400&h=550&fit=crop&q=80" },
+    ];
+
+    const PRODUCTS = [
+      { id: "p1", name: "STAY HUSTLE Oversized Hoodie", nameAr: "هودي STAY HUSTLE أوفرسايز", price: 115, color: "#1B4332", accent: "#0F2A1F", tag: "LIMITED", tagAr: "محدود", inStock: true, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=800&fit=crop&q=80" },
+      { id: "p2", name: "Heavy Cargo Pants", nameAr: "بنطلون كارجو ثقيل", price: 95, color: "#2D2D2D", accent: "#1A1A1A", tag: "NEW", tagAr: "جديد", inStock: true, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&h=800&fit=crop&q=80" },
+      { id: "p3", name: "Boxy Tee — Black", nameAr: "تيشيرت بوكسي — أسود", price: 45, color: "#111111", accent: "#000000", tag: null, tagAr: null, inStock: true, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=800&fit=crop&q=80" },
+      { id: "p4", name: "Washed Denim Jacket", nameAr: "جاكيت دنيم مغسول", price: 145, color: "#4A5568", accent: "#2D3748", tag: "NEW", tagAr: "جديد", inStock: true, img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=600&h=800&fit=crop&q=80" },
+      { id: "p5", name: "Essential Cap", nameAr: "كاب أساسي", price: 35, color: "#D92323", accent: "#A31A1A", tag: null, tagAr: null, inStock: false, img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&h=800&fit=crop&q=80" },
+      { id: "p6", name: "Crewneck Fleece", nameAr: "سويتشيرت فليس", price: 85, color: "#F5F0E8", accent: "#E8DFD0", tag: null, tagAr: null, inStock: true, img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=800&fit=crop&q=80" },
+      { id: "p7", name: "Utility Vest", nameAr: "فيست يوتيليتي", price: 110, color: "#6B7280", accent: "#4B5563", tag: "LIMITED", tagAr: "محدود", inStock: true, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=800&fit=crop&q=80" },
+      { id: "p8", name: "Wide Leg Trousers", nameAr: "بنطلون واسع الساق", price: 90, color: "#1A1A1A", accent: "#0A0A0A", tag: null, tagAr: null, inStock: true, img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=800&fit=crop&q=80" },
+    ];
+
+    function Preloader({ onComplete }) {
+      useEffect(() => { const t = setTimeout(onComplete, 2400); return () => clearTimeout(t); }, [onComplete]);
+      return (
+        <motion.div className="fixed inset-0 z-[100] bg-[#0A0A0A] flex items-center justify-center" exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
+          <div className="pulse-glow">
+            <svg width="88" height="88" viewBox="0 0 96 96" fill="none">
+              <circle cx="48" cy="48" r="44" stroke="#D92323" strokeWidth="3" />
+              <path d="M30 58 L48 28 L66 58 Z" fill="#D92323" />
+              <rect x="40" y="52" width="16" height="18" rx="2" fill="#D92323" />
+            </svg>
+          </div>
+        </motion.div>
+      );
+    }
+
+    function Ticker({ t }) {
+      return (
+        <div className="bg-brand-black text-white text-[10px] tracking-[0.18em] uppercase overflow-hidden h-7 flex items-center">
+          <div className="ticker-track">
+            <span className="px-4 whitespace-nowrap">{t.freeShipping}</span>
+            <span className="px-4 whitespace-nowrap">{t.freeShipping}</span>
+            <span className="px-4 whitespace-nowrap">{t.freeShipping}</span>
+            <span className="px-4 whitespace-nowrap">{t.freeShipping}</span>
+          </div>
+        </div>
+      );
+    }
+
+    function Header({ t, cartCount, onOpenCart, lang, setLang, dir }) {
+      return (
+        <header className="sticky top-0 z-50 bg-[#F8F8F8]/95 backdrop-blur-md border-b border-black/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between relative">
+            <nav className="flex gap-5 sm:gap-6 text-xs font-semibold tracking-widest uppercase">
+              <a href="#collection" className="hover:text-brand-red transition-colors">{t.collection}</a>
+              <a href="#about" className="hover:text-brand-red transition-colors">{t.about}</a>
+            </nav>
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <div className={`transform ${dir === 'rtl' ? 'rotate-3' : '-rotate-3'} origin-center`}>
+                <span className="font-display font-bold text-lg tracking-tighter">
+                  <span className="text-brand-red">STAY</span><span className="text-brand-black"> HUSTLE</span>
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="text-xs font-bold tracking-wider hover:text-brand-red transition-colors px-2 py-1 border border-black/10 rounded">{t.lang}</button>
+              <button onClick={onOpenCart} className="flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase hover:text-brand-red transition-colors group">
+                <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                {t.bag} ({cartCount})
+              </button>
+            </div>
+          </div>
+        </header>
+      );
+    }
+
+    function HoodieItem({ hoodie, index, activeIndex, onHover, onSelect, t }) {
+      const isActive = activeIndex === index;
+      const dist = index - (activeIndex ?? 2.5);
+      const offset = isActive ? 0 : dist * 28;
+      const sideRotate = isActive ? 0 : (dist < 0 ? 38 : -38);
+      return (
+        <motion.div className="relative flex-shrink-0 cursor-pointer origin-top"
+          style={{ width: isActive ? 160 : 105, zIndex: isActive ? 40 : 12 - Math.abs(Math.round(dist)), perspective: "1200px", transformStyle: "preserve-3d" }}
+          onMouseEnter={() => onHover(index)} onClick={() => onSelect(hoodie)}
+          animate={{ x: offset, scale: isActive ? 1.22 : 0.86, rotateY: sideRotate, rotateZ: isActive ? 0 : dist * 1.2, y: isActive ? -28 : Math.abs(dist) * 3 }}
+          transition={{ type: "spring", stiffness: 220, damping: 18, mass: 0.9 }}
+          whileHover={!isActive ? { y: -6 } : undefined}>
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-5 h-4 z-10">
+            <div className="w-full h-full border-2 border-gray-400 border-b-0 rounded-t-full bg-transparent" />
+          </div>
+          <div className="relative h-52 sm:h-60 rounded-lg shadow-2xl overflow-hidden border border-black/10 bg-gray-200">
+            <img src={hoodie.img} alt={hoodie.label} className="absolute inset-0 w-full h-full object-cover"
+              style={{ filter: isActive ? "brightness(1.02) contrast(1.05)" : "brightness(0.88) saturate(0.9)", transform: isActive ? "scale(1)" : "scale(1.05)" }}
+              loading="lazy" draggable={false} />
+            {!isActive && <div className="absolute inset-0 bg-gradient-to-l from-black/30 via-black/5 to-transparent pointer-events-none" />}
+            {isActive && <div className="absolute inset-0 ring-2 ring-inset ring-white/20 pointer-events-none rounded-lg" />}
+          </div>
+          {isActive && (
+            <motion.div initial={{ opacity: 0, y: 12, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.05, type: "spring", stiffness: 400, damping: 25 }}
+              className="absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap z-40 pointer-events-none">
+              <span className="bg-brand-black text-white text-[10px] font-semibold tracking-widest px-4 py-2 rounded-full shadow-xl">{t.viewProduct}</span>
+            </motion.div>
+          )}
+        </motion.div>
+      );
+    }
+
+    function ClothesRail({ onSelectProduct, t }) {
+      const [activeIndex, setActiveIndex] = useState(2);
+      return (
+        <section className="relative py-12 sm:py-16 overflow-hidden">
+          <div className="max-w-5xl mx-auto px-4 text-center mb-10">
+            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tighter leading-none">
+              <span className="text-brand-black">{t.heroTitle1}</span><br /><span className="text-brand-red">{t.heroTitle2}</span>
+            </h1>
+            <p className="mt-4 text-sm sm:text-base text-black/55 max-w-md mx-auto leading-relaxed whitespace-pre-line">{t.heroSub}</p>
+          </div>
+          <div className="relative max-w-4xl mx-auto px-2">
+            <div className="absolute top-1 left-6 right-6 h-3 rounded-full bg-gradient-to-b from-[#c0c0c0] via-[#8a8a8a] to-[#6a6a6a]" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)" }} />
+            <div className="absolute top-0 left-10 w-2 h-5 bg-gradient-to-b from-gray-400 to-gray-600 rounded-sm" />
+            <div className="absolute top-0 right-10 w-2 h-5 bg-gradient-to-b from-gray-400 to-gray-600 rounded-sm" />
+            <div className="relative flex items-end justify-center gap-1 sm:gap-2 pt-10 pb-28 min-h-[340px]" style={{ perspective: "1400px", transformStyle: "preserve-3d" }} onMouseLeave={() => setActiveIndex(2)}>
+              {HOODIES.map((h, i) => (
+                <HoodieItem key={h.id} hoodie={h} index={i} activeIndex={activeIndex} onHover={setActiveIndex} onSelect={onSelectProduct} t={t} />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function ProductCard({ product, t, lang, onAdd }) {
+      return (
+        <div className="group">
+          <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-gray-100 mb-3">
+            {product.img ? (
+              <img src={product.img} alt={lang === 'ar' ? product.nameAr : product.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            ) : (
+              <div className="absolute inset-0" style={{ background: `linear-gradient(160deg, ${product.color} 0%, ${product.accent} 100%)` }} />
+            )}
+            {product.tag && (
+              <span className="absolute top-3 left-3 bg-brand-black text-white text-[9px] font-bold tracking-widest px-2 py-1 rounded-full z-10">{lang === 'ar' ? product.tagAr : product.tag}</span>
+            )}
+            {!product.inStock && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10"><span className="text-white text-xs font-bold tracking-widest">{t.soldOut}</span></div>
+            )}
+            {product.inStock && (
+              <button onClick={() => onAdd(product)} className="absolute bottom-3 left-3 right-3 h-10 bg-white/95 text-brand-black text-xs font-bold tracking-widest uppercase rounded-lg z-10 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-200 hover:bg-brand-black hover:text-white">
+                {t.add} — ${product.price}
+              </button>
+            )}
+          </div>
+          <h3 className="text-sm font-semibold tracking-tight">{lang === 'ar' ? product.nameAr : product.name}</h3>
+          <p className="text-sm text-black/60 mt-0.5">${product.price}</p>
+        </div>
+      );
+    }
+
+    function ProductGrid({ t, lang, onAdd }) {
+      return (
+        <section id="collection" className="max-w-7xl mx-auto px-4 sm:px-6 py-16 border-t border-black/5">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <p className="text-xs tracking-[0.25em] uppercase text-black/40 mb-1">{t.newArrivals}</p>
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">{t.products}</h2>
+            </div>
+            <a href="#collection" className="text-xs font-semibold tracking-widest uppercase hover:text-brand-red transition-colors hidden sm:block">{t.viewAll} →</a>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {PRODUCTS.map(p => <ProductCard key={p.id} product={p} t={t} lang={lang} onAdd={onAdd} />)}
+          </div>
+        </section>
+      );
+    }
+
+    function AboutSection({ t }) {
+      return (
+        <section id="about" className="border-t border-black/5 bg-brand-black text-white py-20">
+          <div className="max-w-3xl mx-auto px-4 text-center">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-6">{t.aboutTitle}</h2>
+            <p className="text-white/70 leading-relaxed text-sm sm:text-base">{t.aboutText}</p>
+          </div>
+        </section>
+      );
+    }
+
+    function ProductDetail({ product, onBack, onAddToCart, t, lang }) {
+      const [size, setSize] = useState("M");
+      const [rotation, setRotation] = useState(0);
+      const [viewMode, setViewMode] = useState("2d");
+      const [isAdding, setIsAdding] = useState(false);
+      const handleAdd = () => {
+        setIsAdding(true);
+        onAddToCart({ ...product, size, price: 115, name: "STAY HUSTLE Oversized Hoodie" });
+        setTimeout(() => setIsAdding(false), 600);
+      };
+      const face = useMemo(() => {
+        const r = ((rotation % 360) + 360) % 360;
+        if (r < 45 || r >= 315) return "front";
+        if (r < 135) return "side";
+        if (r < 225) return "back";
+        return "side";
+      }, [rotation]);
+      return (
+        <motion.div className="min-h-screen bg-[#F8F8F8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+          <div className="max-w-6xl mx-auto px-4 pt-6">
+            <button onClick={onBack} className="text-xs font-semibold tracking-widest uppercase text-black/60 hover:text-brand-red transition-colors">{t.backToRack}</button>
+          </div>
+          <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+            <div>
+              <div className="relative bg-gray-100 rounded-2xl overflow-hidden aspect-[4/5] flex items-center justify-center" style={{ perspective: viewMode === "3d" ? "1000px" : "none" }}>
+                <span className="absolute top-4 left-4 bg-brand-black text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full z-10">{t.limitedDrop}</span>
+                <div className="relative w-[85%] h-[88%] rounded-xl overflow-hidden shadow-2xl" style={{
+                  transformStyle: "preserve-3d",
+                  transform: viewMode === "3d" ? `rotateY(${rotation}deg) rotateX(${Math.sin(rotation * Math.PI / 180) * 8}deg)` : `rotateY(${rotation * 0.4}deg)`,
+                  transition: "transform 0.08s linear"
+                }}>
+                  {product.img ? (
+                    <img src={product.img} alt={product.label || "Hoodie"} className="absolute inset-0 w-full h-full object-cover select-none" draggable={false} />
+                  ) : (
+                    <div className="absolute inset-0" style={{ background: `linear-gradient(160deg, ${product.color} 0%, ${product.accent} 100%)` }} />
+                  )}
+                  <div className="absolute inset-0 pointer-events-none transition-opacity duration-100" style={{
+                    background: face === "side" ? "linear-gradient(90deg, rgba(0,0,0,0.25) 0%, transparent 40%)" : face === "back" ? "rgba(0,0,0,0.15)" : "transparent"
+                  }} />
+                  {face === "back" && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <div className="text-center">
+                        <p className="font-display font-bold text-white text-xl tracking-[0.2em] drop-shadow-lg">STAY</p>
+                        <p className="font-display font-bold text-white text-xl tracking-[0.2em] drop-shadow-lg -mt-1">HUSTLE</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="mt-5 flex items-center gap-3 px-1">
+                <span className="text-[10px] font-bold tracking-widest text-black/40 min-w-[32px]">360°</span>
+                <input type="range" min="0" max="360" value={rotation} onChange={e => setRotation(+e.target.value)} className="flex-1 cursor-grab active:cursor-grabbing" />
+                <span className="text-[10px] font-medium text-black/30 min-w-[36px] text-right">{Math.round(rotation)}°</span>
+              </div>
+              <div className="mt-3 flex gap-2">
+                <button onClick={() => { setViewMode("2d"); setRotation(0); }} className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${viewMode === "2d" ? "bg-brand-black text-white shadow-md" : "bg-white border border-black/10 text-black/60 hover:border-black/30"}`}>2D VIEW</button>
+                <button onClick={() => setViewMode("3d")} className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all flex items-center gap-1.5 ${viewMode === "3d" ? "bg-brand-black text-white shadow-md" : "bg-white border border-black/10 text-black/60 hover:border-black/30"}`}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                  3D MODEL
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="flex items-start justify-between gap-4">
+                <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight uppercase leading-tight whitespace-pre-line">{t.stayHustleHoodie}</h2>
+                <span className="text-2xl font-bold whitespace-nowrap">$115</span>
+              </div>
+              <div className="mt-3 flex items-center gap-3 text-xs">
+                <span className="bg-emerald-100 text-emerald-700 font-semibold px-2.5 py-1 rounded-full">{t.inStock}</span>
+                <span className="text-black/50 font-medium">{t.shipsIn}</span>
+              </div>
+              <p className="mt-5 text-sm text-black/65 leading-relaxed max-w-md">{t.desc}</p>
+              <div className="mt-8">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold tracking-widest uppercase">{t.selectSize}</span>
+                  <button className="text-[11px] font-medium text-black/45 underline hover:text-brand-red">{t.sizeGuide}</button>
+                </div>
+                <div className="flex gap-2">
+                  {["S", "M", "L", "XL"].map(s => (
+                    <button key={s} onClick={() => setSize(s)} className={`w-12 h-12 rounded-lg border-2 text-sm font-semibold transition-all ${size === s ? "border-brand-red bg-brand-red text-white" : "border-black/15 hover:border-black/40"}`}>{s}</button>
+                  ))}
+                </div>
+              </div>
+              <button onClick={handleAdd} disabled={isAdding} className="mt-8 w-full h-14 bg-brand-black text-white font-semibold tracking-widest uppercase text-sm rounded-lg hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0 transition-all duration-200 disabled:opacity-70 flex items-center justify-center gap-2">
+                {isAdding ? t.added : t.addToBag}
+              </button>
+              <ul className="mt-8 space-y-3 text-sm text-black/65">
+                <li className="flex items-center gap-3"><span className="w-5 h-5 rounded-full bg-black/5 flex items-center justify-center text-[10px]">✓</span>{t.cotton}</li>
+                <li className="flex items-center gap-3"><span className="w-5 h-5 rounded-full bg-black/5 flex items-center justify-center text-[10px]">✓</span>{t.freeExpress}</li>
+                <li className="flex items-center gap-3"><span className="w-5 h-5 rounded-full bg-black/5 flex items-center justify-center text-[10px]">✓</span>{t.returns}</li>
+              </ul>
+            </div>
+          </div>
+        </motion.div>
+      );
+    }
+
+    function CartDrawer({ open, onClose, items, onRemove, t, lang }) {
+      const total = items.reduce((s, i) => s + i.price, 0);
+      return (
+        <AnimatePresence>
+          {open && (
+            <>
+              <motion.div className="fixed inset-0 bg-black/40 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+              <motion.div className="fixed top-0 end-0 h-full w-full max-w-md bg-white z-[70] shadow-2xl flex flex-col"
+                initial={{ x: lang === 'ar' ? "-100%" : "100%" }} animate={{ x: 0 }} exit={{ x: lang === 'ar' ? "-100%" : "100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+                <div className="flex items-center justify-between px-6 h-16 border-b border-black/5">
+                  <h3 className="font-display font-bold text-lg tracking-tight">{t.yourBag}</h3>
+                  <button onClick={onClose} className="text-xs font-semibold tracking-widest hover:text-brand-red">{t.close}</button>
+                </div>
+                <div className="flex-1 overflow-y-auto px-6 py-4">
+                  {items.length === 0 ? (
+                    <p className="text-sm text-black/45 mt-10 text-center">{t.emptyBag}</p>
+                  ) : (
+                    <ul className="space-y-4">
+                      {items.map((item, idx) => (
+                        <li key={idx} className="flex gap-4">
+                          {item.img ? (
+                            <img src={item.img} alt="" className="w-14 h-[72px] rounded-md flex-shrink-0 object-cover" />
+                          ) : (
+                            <div className="w-14 h-[72px] rounded-md flex-shrink-0" style={{ background: `linear-gradient(160deg, ${item.color || '#333'} 0%, ${item.accent || '#111'} 100%)` }} />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold truncate">{item.name || "Product"}</p>
+                            <p className="text-xs text-black/45 mt-0.5">{item.label || item.size} {item.size ? `/ ${item.size}` : ""}</p>
+                            <p className="text-sm font-medium mt-1">${item.price}</p>
+                          </div>
+                          <button onClick={() => onRemove(idx)} className="text-xs text-black/35 hover:text-brand-red self-start">✕</button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                {items.length > 0 && (
+                  <div className="border-t border-black/5 px-6 py-5">
+                    <div className="flex justify-between text-sm mb-4">
+                      <span className="text-black/55">{t.subtotal}</span>
+                      <span className="font-semibold">${total}</span>
+                    </div>
+                    <button className="w-full h-12 bg-brand-black text-white font-semibold tracking-widest uppercase text-sm rounded-lg hover:bg-brand-red transition-colors">{t.checkout}</button>
+                  </div>
+                )}
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      );
+    }
+
+    function Footer({ t }) {
+      return (
+        <footer className="border-t border-black/5 py-8 text-center">
+          <p className="text-xs text-black/40">{t.footerRights}</p>
+        </footer>
+      );
+    }
+
+    function App() {
+      const [lang, setLang] = useState("en");
+      const [showPreloader, setShowPreloader] = useState(true);
+      const [view, setView] = useState("home");
+      const [selected, setSelected] = useState(null);
+      const [cart, setCart] = useState([]);
+      const [cartOpen, setCartOpen] = useState(false);
+      const t = translations[lang];
+      const dir = lang === "ar" ? "rtl" : "ltr";
+      useEffect(() => {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = dir;
+        document.body.className = `font-sans text-brand-black antialiased ${lang === "ar" ? "font-arabic" : ""}`;
+      }, [lang, dir]);
+      const handleSelect = (hoodie) => { setSelected(hoodie); setView("pdp"); window.scrollTo({ top: 0, behavior: "smooth" }); };
+      const handleAddToCart = (item) => { setCart(prev => [...prev, item]); setCartOpen(true); };
+      const handleRemove = (idx) => setCart(prev => prev.filter((_, i) => i !== idx));
+      return (
+        <>
+          <AnimatePresence>{showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}</AnimatePresence>
+          {!showPreloader && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.45 }}>
+              <Ticker t={t} />
+              <Header t={t} cartCount={cart.length} onOpenCart={() => setCartOpen(true)} lang={lang} setLang={setLang} dir={dir} />
+              <AnimatePresence mode="wait">
+                {view === "home" ? (
+                  <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}>
+                    <ClothesRail onSelectProduct={handleSelect} t={t} />
+                    <ProductGrid t={t} lang={lang} onAdd={handleAddToCart} />
+                    <AboutSection t={t} />
+                    <Footer t={t} />
+                  </motion.div>
+                ) : (
+                  <ProductDetail key="pdp" product={selected} onBack={() => setView("home")} onAddToCart={handleAddToCart} t={t} lang={lang} />
+                )}
+              </AnimatePresence>
+              <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} items={cart} onRemove={handleRemove} t={t} lang={lang} />
+            </motion.div>
+          )}
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
